@@ -1,0 +1,17 @@
+{
+  "name": "frontend-mobile-challenge-mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-mock": "mockoon-cli start --data transfer-app-mock.json",
+    "start-apidocs": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mockoon/cli": "^8.3.0",
+    "express": "^4.21.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

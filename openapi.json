@@ -1,0 +1,596 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0",
+    "title": "Transfer App Backend",
+    "summary": "A sample transfer app backend API ste",
+    "description": "This is a sample transfer app backend for a mobile frontend challenge.",
+    "contact": {
+      "name": "atlasfoo",
+      "email": "mail@mail.com",
+      "url": "https://website.com"
+    },
+    "license": {
+      "url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "name": "Apache 2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5566",
+      "description": "Localhost"
+    }
+  ],
+  "paths": {
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User Info by User ID",
+        "description": "Retrieve the information of the user with the matching user ID.",
+        "operationId": "get_user_by_id",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "Id of an existing user.",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserInfo"
+                },
+                "examples": {
+                  "Get User Alice Smith": {
+                    "value": {
+                      "full_name": "Josué Antonio Pérez López",
+                      "profile_photo": "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+                      "products": [
+                        {
+                          "type": "Account",
+                          "id": "1134948394"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-Error"
+          }
+        },
+        "security": [
+          {
+            "x-api-key": []
+          },
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/accounts/{ACCOUNT_ID}": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get Account by number",
+        "description": "Gets account information by account internal number",
+        "operationId": "get_account_by_id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ACCOUNT_ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "alias": "Cuenta de ahorro",
+                      "account_number": 1134948394,
+                      "balance": 7500,
+                      "currency": "NIO"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-Error"
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5566",
+            "description": "Localhost"
+          }
+        ]
+      }
+    },
+    "/accounts/{ACCOUNT_ID}/transactions": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get Account Transactions",
+        "description": "Retrieves account transactions by account number",
+        "operationId": "get_account_transactions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ACCOUNT_ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountTransactionResponse"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "page": 0,
+                      "size": 0,
+                      "next": 0,
+                      "total_count": 0,
+                      "items": [
+                        {
+                          "transaction_number": "123456",
+                          "description": "Paga quincenal",
+                          "bank_description": "LAFISE",
+                          "transaction_type": "Credit",
+                          "amount": {
+                            "currency": "USD",
+                            "value": 1000
+                          },
+                          "origin": "123456789",
+                          "destination": "987654321"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-Error"
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5566",
+            "description": "Localhost"
+          }
+        ]
+      }
+    },
+    "/transactions": {
+      "post": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Create Transaction",
+        "description": "Creates a transfer type transaction between an origin and destination account",
+        "operationId": "create_transaction",
+        "requestBody": {
+          "description": "Transfer between accounts",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionRequest"
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "origin": "1134948394",
+                    "destination": "130492890",
+                    "amount": {
+                      "currency": "NIO",
+                      "value": 1000
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SummarizedTransaction"
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "transaction_number": "123456",
+                      "description": "Paga quincenal",
+                      "bank_description": "LAFISE",
+                      "transaction_type": "Credit",
+                      "amount": {
+                        "currency": "USD",
+                        "value": 1000
+                      },
+                      "origin": "123456789",
+                      "destination": "987654321",
+                      "transaction_date": "2019-08-24T14:15:22Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-error"
+          },
+          "500": {
+            "$ref": "#/components/responses/500-error"
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:5566",
+            "description": "Localhost"
+          }
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Accounts",
+      "description": "Accounts Endpoints"
+    },
+    {
+      "name": "Transactions",
+      "description": "Transactions endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "Users endpoints"
+    }
+  ],
+  "components": {
+    "parameters": {
+      "ACCOUNT_ID": {
+        "name": "ACCOUNT_ID",
+        "in": "path",
+        "description": "9-12 digits format Account Id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "examples": [
+            112233445
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "x-api-key": {
+        "type": "apiKey",
+        "name": "apiKey",
+        "in": "header"
+      },
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "responses": {
+      "404-Error": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "type": "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                  "title": "Resource not found",
+                  "status": 404
+                }
+              }
+            }
+          }
+        }
+      },
+      "400-error": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "type": "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                  "title": "Currency not valid",
+                  "status": 400
+                }
+              }
+            }
+          }
+        }
+      },
+      "500-error": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "examples": {
+              "Example 1": {
+                "value": {
+                  "type": "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                  "title": "An error has ocurred. Try again",
+                  "status": 500
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "UserInfo": {
+        "type": "object",
+        "description": "Represents basic user info",
+        "properties": {
+          "full_name": {
+            "type": "string"
+          },
+          "profile_photo": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "Account"
+                },
+                "id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ]
+            }
+          }
+        },
+        "required": [
+          "full_name",
+          "products"
+        ],
+        "x-examples": {
+          "Example 1": {
+            "full_name": "Josué Antonio Pérez López",
+            "profile_photo": "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+            "products": [
+              {
+                "type": "Account",
+                "id": "1134948394"
+              }
+            ]
+          }
+        }
+      },
+      "Account": {
+        "type": "object",
+        "description": "Represents a savings bank account information",
+        "properties": {
+          "alias": {
+            "type": "string"
+          },
+          "account_number": {
+            "type": "integer"
+          },
+          "balance": {
+            "type": "integer"
+          },
+          "currency": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "alias",
+          "account_number",
+          "balance",
+          "currency"
+        ],
+        "x-examples": {
+          "Example 1": {
+            "alias": "Cuenta de ahorro",
+            "account_number": 1134948394,
+            "balance": 7500,
+            "currency": "NIO"
+          }
+        }
+      },
+      "AccountTransactionResponse": {
+        "type": "object",
+        "title": "AccountTransactionResponse",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "next": {
+            "type": "integer"
+          },
+          "total_count": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SummarizedTransaction"
+            }
+          }
+        },
+        "required": [
+          "page",
+          "size",
+          "total_count",
+          "items"
+        ]
+      },
+      "SummarizedTransaction": {
+        "type": "object",
+        "description": "Represents a summarized transaction",
+        "properties": {
+          "transaction_number": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "bank_description": {
+            "type": "string"
+          },
+          "transaction_type": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          },
+          "transaction_date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "transaction_number",
+          "description",
+          "bank_description",
+          "transaction_type",
+          "origin",
+          "destination",
+          "amount"
+        ],
+        "x-examples": {
+          "Example 1": {
+            "transaction_number": "123456",
+            "description": "Paga quincenal",
+            "bank_description": "LAFISE",
+            "transaction_type": "Credit",
+            "amount": {
+              "currency": "USD",
+              "value": 1000
+            }
+          }
+        }
+      },
+      "Amount": {
+        "type": "object",
+        "title": "Amount",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "required": [
+          "currency",
+          "value"
+        ]
+      },
+      "TransactionRequest": {
+        "type": "object",
+        "title": "TransactionRequest",
+        "properties": {
+          "origin": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "amount": {
+            "$ref": "#/components/schemas/Amount"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "title",
+          "status"
+        ],
+        "x-examples": {
+          "Example 1": {
+            "type": "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+            "title": "An error occurred while processing your request.",
+            "status": 500,
+            "detail": "An unexpected error occurred. Please try again later.",
+            "instance": "/errors/12345",
+            "traceId": "00-abcdef1234567890abcdef1234567890-abcdef1234567890-01"
+          }
+        }
+      }
+    }
+  }
+}

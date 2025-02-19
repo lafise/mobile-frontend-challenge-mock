@@ -1,0 +1,346 @@
+{
+  "uuid": "58ca7273-7d34-4da8-a3d1-c9ca37f69e55",
+  "lastMigration": 32,
+  "name": "Transfer App Backend",
+  "endpointPrefix": "",
+  "latency": 0,
+  "port": 5566,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "e945abbd-a3b5-47f9-a1fc-0c805c51ceed",
+      "type": "http",
+      "documentation": "Get User Info by User ID",
+      "method": "get",
+      "endpoint": "users/:userId",
+      "responses": [
+        {
+          "uuid": "c936f907-a116-4006-a3ef-28e254fdfa36",
+          "body": "{\n  \"full_name\": \"Josué Antonio Pérez López\",\n  \"profile_photo\": \"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png\",\n  \"products\": [\n    {\n      \"type\": \"Account\",\n      \"id\": \"1134948394\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Get User Alice Smith",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "dcbe90a1-8d40-467b-8785-60d348e40d98",
+          "body": "{\n  \"type\": \"https://tools.ietf.org/html/rfc7231#section-6.6.1\",\n  \"title\": \"Resource not found\",\n  \"status\": 404\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Resource not found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "96ff03d2-a654-4bef-a41c-f001d688f6b2",
+      "type": "http",
+      "documentation": "Get Account by number",
+      "method": "get",
+      "endpoint": "accounts/:ACCOUNT_ID",
+      "responses": [
+        {
+          "uuid": "8b64e75b-d45c-4a86-8ada-141c7635133a",
+          "body": "{\n  \"alias\": \"Cuenta de ahorro\",\n  \"account_number\": 1134948394,\n  \"balance\": 7500,\n  \"currency\": \"NIO\"\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Ok response",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "9b0c140f-ae04-4a82-b5ae-ffd91e4ec1d3",
+          "body": "{\n  \"type\": \"https://tools.ietf.org/html/rfc7231#section-6.6.1\",\n  \"title\": \"Resource not found\",\n  \"status\": 404\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not found response",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "ACCOUNT_ID",
+              "value": "112233009",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "69101c72-6ab3-4031-9efb-33be6c940559",
+      "type": "http",
+      "documentation": "Get Account Transactions",
+      "method": "get",
+      "endpoint": "accounts/:ACCOUNT_ID/transactions",
+      "responses": [
+        {
+          "uuid": "434616e4-c378-4ffa-8fc4-ba4318ef2bca",
+          "body": "{\n  \"page\": 0,\n  \"size\": 0,\n  \"next\": 0,\n  \"total_count\": 0,\n  \"items\": [\n    {\n      \"transaction_number\": \"123456\",\n      \"description\": \"Paga quincenal\",\n      \"bank_description\": \"Banco\",\n      \"transaction_type\": \"Credit\",\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": 1000.00\n      },\n      \"origin\": \"123456789\",\n      \"destination\": \"987654321\"\n      \"transaction_date\": \"{{dateFormat (faker 'date.recent' 100) 'yyyy-MM-dd\\'T\\'HH:mm:ssXX'}}\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Ok response",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "a3277737-83fb-40cb-9fee-a1f1c5a51092",
+          "body": "{\n  \"type\": \"https://tools.ietf.org/html/rfc7231#section-6.6.1\",\n  \"title\": \"Resource not found\",\n  \"status\": 404\n}",
+          "latency": 0,
+          "statusCode": 404,
+          "label": "Not found",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "params",
+              "modifier": "ACCOUNT_ID",
+              "value": "112233009",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "8ca7b528-6fac-46b7-8bb7-56626c6e4cd9",
+      "type": "http",
+      "documentation": "Create Transaction",
+      "method": "post",
+      "endpoint": "transactions",
+      "responses": [
+        {
+          "uuid": "40c9c711-6fda-4d1b-a4cc-14daa0c045f6",
+          "body": "{\n  \"transaction_number\": \"{{ faker 'number.int' max=99999 }}\",\n  \"description\": \"Transferencia\",\n  \"bank_description\": \"Banco\",\n  \"transaction_type\": \"Debit\",\n  \"amount\": {\n    \"currency\": \"{{ body 'amount.currency' 'NIO' }}\",\n    \"value\": {{  body 'amount.value' '1000.00' }}\n  },\n  \"origin\": \"{{  body 'origin' '1122334455' }}\",\n  \"destination\": \"{{  body 'destination' '1122335566' }}\",\n  \"transaction_date\": \"{{ now }}\"\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "OK Created response",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "ebce3738-3e34-44e2-b7de-ae587b274922",
+          "body": "{\n  \"type\": \"https://tools.ietf.org/html/rfc7231#section-6.6.1\",\n  \"title\": \"Currency not valid\",\n  \"status\": 400\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "Bad request",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "amount.currency",
+              "value": "USD",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "7bb04cd1-9cfa-4efe-bdbf-a2037d16f58c",
+          "body": "{\n  \"type\": \"https://tools.ietf.org/html/rfc7231#section-6.6.1\",\n  \"title\": \"An error has ocurred. Try again\",\n  \"status\": 500\n}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "Internal server error",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "header",
+              "modifier": "x-throw",
+              "value": "",
+              "invert": true,
+              "operator": "null"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "e945abbd-a3b5-47f9-a1fc-0c805c51ceed"
+    },
+    {
+      "type": "route",
+      "uuid": "96ff03d2-a654-4bef-a41c-f001d688f6b2"
+    },
+    {
+      "type": "route",
+      "uuid": "69101c72-6ab3-4031-9efb-33be6c940559"
+    },
+    {
+      "type": "route",
+      "uuid": "8ca7b528-6fac-46b7-8bb7-56626c6e4cd9"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}
