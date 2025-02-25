@@ -7,5 +7,5 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // start app on port 5567
 app.listen(5567, () => {
-  console.log('Server is running on http://localhost:5567');
+  console.log('APIDOCS Server is running on http://localhost:5567');
 });

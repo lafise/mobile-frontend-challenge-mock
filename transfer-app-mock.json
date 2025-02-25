@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "c936f907-a116-4006-a3ef-28e254fdfa36",
-          "body": "{\n  \"full_name\": \"Josué Antonio Pérez López\",\n  \"profile_photo\": \"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png\",\n  \"products\": [\n    {\n      \"type\": \"Account\",\n      \"id\": \"1134948394\"\n    }\n  ]\n}",
+          "body": "{\n  \"full_name\": \"Josué Antonio Pérez López\",\n  \"profile_photo\": \"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png\",\n  \"products\": [\n    {\n      \"type\": \"Account\",\n      \"id\": \"1134948394\"\n    },\n    {\n      \"type\": \"Account\",\n      \"id\": \"1134948375\"\n    },\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "Get User Alice Smith",
@@ -141,7 +141,7 @@
       "responses": [
         {
           "uuid": "434616e4-c378-4ffa-8fc4-ba4318ef2bca",
-          "body": "{\n  \"page\": 0,\n  \"size\": 0,\n  \"next\": 0,\n  \"total_count\": 0,\n  \"items\": [\n    {\n      \"transaction_number\": \"123456\",\n      \"description\": \"Paga quincenal\",\n      \"bank_description\": \"Banco\",\n      \"transaction_type\": \"Credit\",\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": 1000.00\n      },\n      \"origin\": \"123456789\",\n      \"destination\": \"987654321\"\n      \"transaction_date\": \"{{dateFormat (faker 'date.recent' 100) 'yyyy-MM-dd\\'T\\'HH:mm:ssXX'}}\"\n    }\n  ]\n}",
+          "body": "{\n  \"page\": 1,\n  \"size\": 10,\n  \"next\": 0,\n  \"total_count\": 1,\n  \"items\": [\n    {\n      \"transaction_number\": \"123456\",\n      \"description\": \"Paga quincenal\",\n      \"bank_description\": \"Banco\",\n      \"transaction_type\": \"Credit\",\n      \"amount\": {\n        \"currency\": \"USD\",\n        \"value\": 1000.00\n      },\n      \"origin\": \"123456789\",\n      \"destination\": \"987654321\",\n      \"transaction_date\": \"{{dateFormat (faker 'date.recent' 100) 'yyyy-MM-dd\\'T\\'HH:mm:ssXX'}}\"\n    }\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "Ok response",
@@ -328,7 +328,20 @@
     "passphrase": ""
   },
   "cors": true,
-  "headers": [],
+  "headers": [
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
   "proxyReqHeaders": [
     {
       "key": "",
